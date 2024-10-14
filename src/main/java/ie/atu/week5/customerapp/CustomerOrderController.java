@@ -26,6 +26,7 @@ public class CustomerOrderController {
     public ResponseEntity<String> createCustomerWithOrders(@RequestBody CustomerOrderRequest customerOrderRequest) {
 
         // 1. Save the Customer and get the generated customer ID
+        if(customerRepository.existsById()
 
 
         // 2. Save the Orders and link them to the customer

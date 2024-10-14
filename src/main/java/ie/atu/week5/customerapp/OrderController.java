@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -12,9 +13,13 @@ import java.util.List;
 public class OrderController {
 
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderController(OrderRepository orderRepository) {
+    List<Order> orders = new ArrayList<>();
+
+    public OrderController(OrderRepository orderRepository, OrderService orderService) {
         this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -22,6 +27,32 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable String customerId) {
+        List<Order> orders = orderService.getOrdersByCustomerId(customerId);
+        return ResponseEntity.ok(orders);
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
+        List<Order> savedOrder = orderService.createOrder(order);
+        return ResponseEntity.ok(order);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
+        if (orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+}
+
+
+
+//Original code
+    /*
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable String customerId) {
         List<Order> orders = orderRepository.findByCustomerId(customerId);
@@ -41,5 +72,4 @@ public class OrderController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
-    }
-}
+    }*/
