@@ -20,6 +20,10 @@ public class CustomerService {
         this.orderRepository = orderRepository;
     }
 
+    public List<Customer> getCustomerById(String id){
+        customerRepository.findById(id);
+        return customerRepository.findAll();
+    }
     public List<Customer>createCustomer(Customer customer){
         customerRepository.save(customer);
         return customerRepository.findAll();
