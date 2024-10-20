@@ -18,6 +18,6 @@ public class Order {
     private String orderDetails;
     @NotBlank(message = "Order date is mandatory")
     private String orderDate;
-    @NotBlank(message = "Customer ID is mandatory")
+
     private String customerId; // Reference to the associated customer
 }

@@ -39,6 +39,12 @@ public class OrderController {
         return ResponseEntity.ok(order);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<List<Order>> updateOrder(@PathVariable String id, @RequestBody Order updatedOrder){
+        orders = orderService.updateOrder(id, updatedOrder);
+        return ResponseEntity.ok(orders);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<List<Order>> deleteOrder(@PathVariable String id) {
         orders = orderService.deleteOrder(id);

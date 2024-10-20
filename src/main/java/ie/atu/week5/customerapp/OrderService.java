@@ -27,6 +27,15 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> updateOrder(String id, Order order){
+        if(orderRepository.existsById(id)){
+            order.setId(id);
+            //order.setCustomerId(customer.getId());
+            orderRepository.save(order);
+        }
+        return orderRepository.findAll();
+    }
+
     public List<Order> deleteOrder(String id){
         if(orderRepository.existsById(id)){
             orderRepository.deleteById(id);
