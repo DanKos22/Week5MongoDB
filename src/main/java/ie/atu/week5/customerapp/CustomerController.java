@@ -40,6 +40,12 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<List<Customer>> updateCustomer(@PathVariable String id, @Valid @RequestBody Customer updatedCustomer){
+        customers = customerService.updateCustomer(id, updatedCustomer);
+        return ResponseEntity.ok(customers);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<List<Customer>> deleteCustomer(@PathVariable String id) {
         customers = customerService.deleteCustomer(id);

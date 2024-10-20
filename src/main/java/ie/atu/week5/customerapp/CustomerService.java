@@ -29,6 +29,13 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public List<Customer>updateCustomer(String id, Customer customer){
+        if(customerRepository.existsById(id)){
+            customer.setId(id);
+            customerRepository.save(customer);
+        }
+        return customerRepository.findAll();
+    }
     public List<Customer>deleteCustomer(String id){
 
         if(customerRepository.existsById(id)){
