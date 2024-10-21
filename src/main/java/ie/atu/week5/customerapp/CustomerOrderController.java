@@ -43,16 +43,23 @@ public class CustomerOrderController {
         return ResponseEntity.ok("Customer and orders created successfully");
     }
 
+
     @PutMapping("/{customerId}")
-    public ResponseEntity<String> updateCustomersWithOrders(@PathVariable String customerId, @RequestBody Customer customer, @RequestBody Order order){
+    public ResponseEntity<String> updateCustomersWithOrders(@PathVariable String customerId, @RequestBody CustomerOrderRequest customerOrderRequest){
         if(customerRepository.existsById(customerId)){
+            Customer customer = customerOrderRequest.getCustomer();
             customer.setId(customerId);
             customerRepository.save(customer);
         }
-        if(orderRepository.existsById(customerId)){
-            order.setId(customerId);
-            order.setCustomerId(customer.getId());
-            orderRepository.save(order);
+
+        List<Order> orders = customerOrderRequest.getOrders();
+
+        for(Order order : orders){
+            if(orderRepository.existsById(customerId)){
+                order.setId(customerId);
+                //order.setCustomerId(customerId);
+                orderRepository.save(order);
+            }
         }
         return ResponseEntity.ok("Customer and orders updated successfully");
     }
